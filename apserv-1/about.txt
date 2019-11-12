@@ -74,10 +74,9 @@ STOP
 table users (uid, name)
 table routes (rid, steps)
 table sessions (sid, uid, rid, step)
-    (0 = init, 999 = end)
+    (steps: 0 = init, 999 = end)
 table log (dt, event, uid, rid, what)
-table events (eid, etype)
-    etypes: init, adduser, deluser, addroute, delroute, startsess, stepsess, stopsess, error
+    events: init, adduser, deluser, addroute, delroute, startsess, stepsess, stopsess, error
 results:
     [ok, error], desc=""
 
