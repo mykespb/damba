@@ -8,5 +8,5 @@ COPY . .
 
 EXPOSE 80
 
-CMD [ "python", ".script.py" ]
+CMD [ "python", "./script.py" ]
 
