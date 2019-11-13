@@ -10,5 +10,6 @@ COPY . .
 
 EXPOSE 8080
 
+ENTRYPOINT [ "python", "script.py" ]
 CMD [ "python", "./script.py" ]
 

@@ -1,22 +1,23 @@
 #!/usr/bin/env python
 
-#print ("Hello to all!")
-
 import datetime
 
-import bottle
-#from bottle import get, put, route, run, debug, app
+#import bottle
+from bottle import get, put, route, run, debug, app
 
 app = bottle.app()
 
 dt = datetime.datetime.now()
 dtstr = str(dt)
+print ("damba. starting at %s\n" % (dtstr, ))
 
-@bottle.route('/')
+@app.get('/')
 def index ():
-    return f"hello at {dtstr}"
+    dt = datetime.datetime.now()
+    dtstr = str(dt)
+    return "hello at %s" % (dtstr,)
 
 if __name__ == '__main__':
-    bottle.debug (True)
-    bottle.run (app=app, host='localhost', port=8080)
+    app.debug (True)
+    app.run (host='localhost', port=8080)
 
