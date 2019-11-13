@@ -1,1 +1,1 @@
-docker-compose -f docker-compose-min.yml up --build -d
+docker-compose -f docker-compose-min.yml  up --detach --build 
