@@ -5,7 +5,4 @@ services:
   engine:
     build:
       context: "./engine"
-    depends_on: 
-      - db
-    restart: always
 
