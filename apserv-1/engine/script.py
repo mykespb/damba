@@ -2,10 +2,10 @@
 
 import datetime
 
-#import bottle
-from bottle import get, put, route, run, debug, app
+import bottle
+#from bottle import get, put, route, run, debug, app, template, Bottle
 
-app = bottle.app()
+app = bottle.Bottle()
 
 dt = datetime.datetime.now()
 dtstr = str(dt)
@@ -18,6 +18,8 @@ def index ():
     return "hello at %s" % (dtstr,)
 
 if __name__ == '__main__':
-    app.debug (True)
-    app.run (host='localhost', port=8080)
+#    app.debug (True)
+    app.run (host='0.0.0.0', port=8080)
+#    app.run (host='0.0.0.0', port=8080, server=cgi)
+#    app.run (host='localhost', port=8080)
 
