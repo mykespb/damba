@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# main runner of damba engine
+# ver. 1.0. ok 2019-11-13
 
 import datetime
 
