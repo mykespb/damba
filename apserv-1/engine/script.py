@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # main runner of damba engine
-# ver. 1.2. ok 2019-11-14
+# ver. 1.3. ok 2019-11-15
 
 import datetime
 
@@ -24,6 +24,5 @@ if __name__ == '__main__':
 
 #    app.debug (True)
 #    app.run (host='0.0.0.0', port=8080)
-#    app.run (host='0.0.0.0', port=8080, server=cgi)
 #    app.run (host='localhost', port=8080)
 
