@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # main runner of damba engine
-# ver. 1.3. ok 2019-11-15
+# ver. 1.4. ok 2019-11-18
 
 import datetime
 
@@ -11,13 +11,13 @@ app = Bottle()
 
 dt = datetime.datetime.now()
 dtstr = str(dt)
-print ("damba. starting at %s\n" % (dtstr,))
+print ("damba engine. starting at %s\n" % (dtstr,))
 
 @app.get('/')
 def index ():
     dt = datetime.datetime.now()
     dtstr = str(dt)
-    return "hello at %s" % (dtstr,)
+    return "hello from engine at %s" % (dtstr,)
 
 if __name__ == '__main__':
     app.run (server='gunicorn', host='0.0.0.0', port=8080)
