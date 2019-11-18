@@ -4,8 +4,6 @@ LABEL MAINTAINER Mikhail Kolodin
 
 WORKDIR /usr/src/app
 
-#RUN apt-get install python3 python-pip python3-dev
-
 COPY requirements.txt ./
 
 RUN pip install --upgrade pip
