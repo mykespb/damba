@@ -7,6 +7,14 @@ services:
     image: "damba-min-engine"
     ports: 
       - "8080:8080"
+      - "6379"
     volumes:
       - "./engine:/usr/src/app"
+    depends_on:
+      - db
 
+  db:
+    build: "./db"
+    image: "damba-min-redis"
+    ports: 
+      - "6379"

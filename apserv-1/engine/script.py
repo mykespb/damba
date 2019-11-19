@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 # main runner of damba engine
-# ver. 1.10. run 2019-11-19
+# ver. 1.13. run 2019-11-19
 # Mikhail Kolodin
+
+version = '1.13'
 
 import datetime
 import ulid
+import redis
 
 #import bottle
-from bottle import get, put, route, run, debug, app, template, Bottle
-
-version = '1.10'
+from bottle import get, post, route, run, debug, app, template, Bottle
 
 app = Bottle()
 
@@ -18,6 +19,15 @@ app.config["autojson"] = True
 dt = datetime.datetime.now()
 dtstr = str(dt)
 print ("damba engine. starting at %s\n" % (dtstr,))
+
+print ("connect to redis: ", end="")
+myredis = None
+try:
+#    myredis = redis.Redis()
+    myredis = redis.Redis(host="db", port=6379, db=0)
+    print ("connected")
+except:
+    print ("cannot connect")
 
 
 # --------------- bazed ULID
@@ -34,7 +44,9 @@ def bazed_ulid(n):
     return res
 
 
-# --------------- web service
+# --------------- web services
+
+# --------------- index
 @app.get('/')
 def index ():
     dt = datetime.datetime.now()
@@ -47,10 +59,28 @@ def index ():
     return "<tt>hello from engine ver.%s at %s<br />as long %s [len%d] and short %s [len%d]</tt>" % (
         version, dtstr, strmyulid, len(strmyulid), bmyulid, len(bmyulid))
 
+# --------------- info
 @app.get('/info')
 def info():
-    return {"version": version, "datetime": dtstr}
+    return {"version": version, "datetime_utc": dtstr}
 
+# --------------- putredis
+@app.get('/putredis')
+def putredis():
+    if myredis:
+        myredis.set(b"foo", b"bar")
+        return "set foo=bar"
+    else:
+        return "no redis connection"
+    
+# --------------- getredis
+@app.get('/getredis')
+def getredis():
+    if myredis:
+        bar = myredis.get(b"foo")
+        return "got foo=%s" % (str(bar),)
+    else:
+        return "no redis connection"
 
 # ---------------- caller
 if __name__ == '__main__':
