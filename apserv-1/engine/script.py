@@ -56,7 +56,7 @@ def index ():
     intmyulid = myulid.int
     bmyulid = bazed_ulid(intmyulid)
 
-    return "<tt>A nice hello from engine ver.%s at %s<br />as long %s [len%d] and short %s [len%d]</tt>" % (
+    return "<tt>The nice hello from engine ver.%s at %s<br />as long %s [len%d] and short %s [len%d]</tt>" % (
         version, dtstr, strmyulid, len(strmyulid), bmyulid, len(bmyulid))
 
 # --------------- info
@@ -86,7 +86,7 @@ def getredis():
 
 # ---------------- caller
 if __name__ == '__main__':
-    app.run (server='gunicorn', host='0.0.0.0', port=8080, debug=True)
+    app.run (server='gunicorn', host='0.0.0.0', port=8080, debug=True, reload=True)
 
 #    app.debug (True)
 #    app.run (host='0.0.0.0', port=8080)
