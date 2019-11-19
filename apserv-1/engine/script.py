@@ -56,7 +56,7 @@ def index ():
     intmyulid = myulid.int
     bmyulid = bazed_ulid(intmyulid)
 
-    return "<tt>hello from engine ver.%s at %s<br />as long %s [len%d] and short %s [len%d]</tt>" % (
+    return "<tt>A nice hello from engine ver.%s at %s<br />as long %s [len%d] and short %s [len%d]</tt>" % (
         version, dtstr, strmyulid, len(strmyulid), bmyulid, len(bmyulid))
 
 # --------------- info
