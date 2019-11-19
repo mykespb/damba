@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # main runner of damba engine
-# ver. 1.13. run 2019-11-19
+# ver. 1.14. run 2019-11-19
 # Mikhail Kolodin
 
-version = '1.13'
+version = '1.14'
 
 import datetime
 import ulid
@@ -24,7 +24,7 @@ print ("connect to redis: ", end="")
 myredis = None
 try:
 #    myredis = redis.Redis()
-    myredis = redis.Redis(host="db", port=6379, db=0)
+    myredis = redis.Redis(host="db", port=6379, db=0, decode_responses=True)
     print ("connected")
 except:
     print ("cannot connect")
@@ -68,8 +68,9 @@ def info():
 @app.get('/putredis')
 def putredis():
     if myredis:
-        myredis.set(b"foo", b"bar")
-        return "set foo=bar"
+        myredis.set("foo", "bar")
+        myredis.set("name", "Василий")
+        return "set foo=bar, name=Василий"
     else:
         return "no redis connection"
     
@@ -77,8 +78,9 @@ def putredis():
 @app.get('/getredis')
 def getredis():
     if myredis:
-        bar = myredis.get(b"foo")
-        return "got foo=%s" % (str(bar),)
+        foo = myredis.get("foo")
+        name = myredis.get("name")
+        return "got foo=%s, name=%s" % (str(foo), str(name))
     else:
         return "no redis connection"
 
