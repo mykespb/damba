@@ -31,6 +31,7 @@ except:
 
 
 # --------------- bazed ULID
+
 def bazed_ulid(n):
     baza = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     bl = len(baza)
@@ -57,6 +58,7 @@ def redis_dec(func):
 # --------------- web services
 
 # --------------- index
+
 @app.get('/')
 def index ():
     dt = datetime.datetime.now()
@@ -70,11 +72,13 @@ def index ():
         version, dtstr, strmyulid, len(strmyulid), bmyulid, len(bmyulid))
 
 # --------------- info
+
 @app.get('/info')
 def info():
     return {"version": version, "datetime_utc": dtstr}
 
 # --------------- putredis
+
 @redis_dec
 @app.get('/putredis')
 def putredis():
@@ -83,6 +87,7 @@ def putredis():
     return "set foo=bar, name=Василий"
     
 # --------------- getredis
+
 @redis_dec
 @app.get('/getredis')
 def getredis():
@@ -91,6 +96,7 @@ def getredis():
     return "got foo=%s, name=%s" % (str(foo), str(name))
 
 # ---------------- caller
+
 if __name__ == '__main__':
     app.run (server='gunicorn', host='0.0.0.0', port=8080, debug=True, reload=True)
 
@@ -99,3 +105,4 @@ if __name__ == '__main__':
 #    app.run (host='localhost', port=8080)
 
 # the end.
+# =======================================================
