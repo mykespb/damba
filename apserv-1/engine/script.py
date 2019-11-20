@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # main runner of damba engine
-# ver. 1.14. run 2019-11-19
+# ver. 1.15. run 2019-11-20
 # Mikhail Kolodin
 
 version = '1.14'
@@ -44,6 +44,16 @@ def bazed_ulid(n):
     return res
 
 
+# --------------- decorators
+
+def redis_dec(func):
+    def wrapper(*args, **kwargs):
+        if myredis:
+            func(*args, **kwargs)
+        else:
+            return "no redis connection"
+    return wrapper
+
 # --------------- web services
 
 # --------------- index
@@ -65,24 +75,20 @@ def info():
     return {"version": version, "datetime_utc": dtstr}
 
 # --------------- putredis
+@redis_dec
 @app.get('/putredis')
 def putredis():
-    if myredis:
-        myredis.set("foo", "bar")
-        myredis.set("name", "Василий")
-        return "set foo=bar, name=Василий"
-    else:
-        return "no redis connection"
+    myredis.set("foo", "bar")
+    myredis.set("name", "Василий")
+    return "set foo=bar, name=Василий"
     
 # --------------- getredis
+@redis_dec
 @app.get('/getredis')
 def getredis():
-    if myredis:
-        foo = myredis.get("foo")
-        name = myredis.get("name")
-        return "got foo=%s, name=%s" % (str(foo), str(name))
-    else:
-        return "no redis connection"
+    foo = myredis.get("foo")
+    name = myredis.get("name")
+    return "got foo=%s, name=%s" % (str(foo), str(name))
 
 # ---------------- caller
 if __name__ == '__main__':
