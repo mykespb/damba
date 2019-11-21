@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # main runner of damba engine
-# ver. 1.18. run 2019-11-21
+# ver. 1.19. run 2019-11-21
 # Mikhail Kolodin
 
-version = '1.18'
+version = '1.19'
 
 import datetime
 import ulid
