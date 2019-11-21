@@ -23,6 +23,15 @@ services:
           memory: 10M
     restart: always
 
+  web:
+    image: "damba-min-web"
+    build: "./web"
+    ports: "8000:80"
+    depends_on: 
+      - engine
+      - db
+    restart: always
+
   tasker:
     build:
       context: "./tasker"
