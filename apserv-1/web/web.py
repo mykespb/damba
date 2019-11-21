@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-# main runner of damba engine
-# ver. 1.16. run 2019-11-21
+# main runner of damba web
+# ver. 0.2. run 2019-11-21
 # Mikhail Kolodin
 
-version = '1.16'
+version = '0.2'
 
 import datetime
 import ulid
@@ -76,6 +76,7 @@ def info():
     return {"version": version, "datetime_utc": dtstr}
 
 # --------------- putredis
+#REDO
 
 @redis_dec
 @app.get('/putredis')
@@ -85,6 +86,7 @@ def putredis():
     return "set foo=bar, name=Василий"
     
 # --------------- getredis
+#REDO
 
 @redis_dec
 @app.get('/getredis')
@@ -96,7 +98,7 @@ def getredis():
 # ---------------- caller
 
 if __name__ == '__main__':
-    app.run (server='gunicorn', host='0.0.0.0', port=8001, debug=True, reload=True)
+    app.run (server='gunicorn', host='0.0.0.0', port=80, debug=True, reload=True)
 
 #    app.debug (True)
 #    app.run (host='0.0.0.0', port=8080)

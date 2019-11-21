@@ -11,8 +11,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-EXPOSE 80
+EXPOSE 8001
 
 ENTRYPOINT [ "python", "script.py" ]
 CMD [ "python", "./script.py" ]
-
