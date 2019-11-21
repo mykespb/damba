@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # main runner of damba engine
-# ver. 1.15. run 2019-11-20
+# ver. 1.16. run 2019-11-21
 # Mikhail Kolodin
 
 version = '1.14'
@@ -98,7 +98,7 @@ def getredis():
 # ---------------- caller
 
 if __name__ == '__main__':
-    app.run (server='gunicorn', host='0.0.0.0', port=8080, debug=True, reload=True)
+    app.run (server='gunicorn', host='0.0.0.0', port=80, debug=True, reload=True)
 
 #    app.debug (True)
 #    app.run (host='0.0.0.0', port=8080)

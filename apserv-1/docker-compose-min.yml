@@ -6,7 +6,7 @@ services:
     build: "./engine"
     image: "damba-min-engine"
     ports: 
-      - "8080:8080"
+      - "8080:80"
       - "6379"
     volumes:
       - "./engine:/usr/src/app"
