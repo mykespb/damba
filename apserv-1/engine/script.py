@@ -1,16 +1,18 @@
 #!/usr/bin/env python
 # main runner of damba engine
-# ver. 1.16. run 2019-11-21
+# ver. 1.18. run 2019-11-21
 # Mikhail Kolodin
 
-version = '1.16'
+version = '1.18'
 
 import datetime
 import ulid
 import redis
 
+from tools import *
+
 #import bottle
-from bottle import get, post, route, run, debug, app, template, Bottle
+from bottle import get, post, route, run, debug, app, Bottle
 
 app = Bottle()
 
@@ -28,20 +30,6 @@ try:
     print ("connected")
 except:
     print ("cannot connect")
-
-# --------------- bazed ULID
-
-def bazed_ulid(n):
-    baza = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    bl = len(baza)
-    res = ''
-    if n == 0:
-        return '0'
-    while n:
-        r = n % bl
-        n //= bl
-        res = baza[r] + res
-    return res
 
 # --------------- decorators
 

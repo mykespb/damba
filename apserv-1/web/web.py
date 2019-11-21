@@ -1,16 +1,18 @@
 #!/usr/bin/env python
 # main runner of damba web
-# ver. 0.2. run 2019-11-21
+# ver. 1.1. run 2019-11-21
 # Mikhail Kolodin
 
-version = '0.2'
+version = '1.1'
 
 import datetime
 import ulid
 import redis
 
+from tools import *
+
 #import bottle
-from bottle import get, post, route, run, debug, app, template, Bottle
+from bottle import get, post, route, run, debug, app, template, Bottle, static_file
 
 app = Bottle()
 
