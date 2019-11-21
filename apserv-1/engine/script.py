@@ -3,7 +3,7 @@
 # ver. 1.16. run 2019-11-21
 # Mikhail Kolodin
 
-version = '1.14'
+version = '1.16'
 
 import datetime
 import ulid
