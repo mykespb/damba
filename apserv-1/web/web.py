@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 # main runner of damba web
-# ver. 1.3. run 2019-11-21
+# ver. 1.4. run 2019-11-21
 # Mikhail Kolodin
 
-version = '1.3'
+version = '1.4'
+
+params = {}
+params['version'] = version
 
 import datetime
 import ulid
@@ -22,14 +25,27 @@ dt = datetime.datetime.now()
 dtstr = str(dt)
 print ("damba engine. starting at %s\n" % (dtstr,))
 
-print ("connect to redis: ", end="")
+#print ("connect to redis: ", end="")
 myredis = None
 try:
 #    myredis = redis.Redis()
     myredis = redis.Redis(host="db", port=6379, db=0, decode_responses=True)
-    print ("connected")
+    params['redis_status'] = "on"
+#    print ("connected")
 except:
-    print ("cannot connect")
+#    print ("cannot connect")
+    params['redis_status'] = "off"
+
+tpl = """<!DOCTYPE html><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<p>This is Damba Web ver.{{version}}.</p>
+<p>Redis is {{redis_status}}.</p>
+</body>
+</html>
+"""
 
 # --------------- bazed ULID
 
@@ -68,8 +84,9 @@ def index ():
     intmyulid = myulid.int
     bmyulid = bazed_ulid(intmyulid)
 
-    return "<tt>The nice hello from engine ver.%s at %s<br />as long %s [len%d] and short %s [len%d]</tt>" % (
-        version, dtstr, strmyulid, len(strmyulid), bmyulid, len(bmyulid))
+    return template (tpl, **params)
+#    return "<tt>The nice hello from engine ver.%s at %s<br />as long %s [len%d] and short %s [len%d]</tt>" % (
+#        version, dtstr, strmyulid, len(strmyulid), bmyulid, len(bmyulid))
 
 # --------------- info
 
