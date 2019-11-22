@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # main runner of damba web
-# ver. 1.4. run 2019-11-21
+# ver. 1.5. run 2019-11-22
 # Mikhail Kolodin
 
-version = '1.4'
+version = '1.5'
 
 params = {}
 params['version'] = version
