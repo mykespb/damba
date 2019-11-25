@@ -4,6 +4,7 @@
 # Mikhail Kolodin
 
 version = '2.1'
+python_mode = "ASGI"
 
 import datetime
 import ulid
@@ -11,7 +12,6 @@ import redis
 
 from tools import *
 
-#import bottle
 from bottle import get, post, route, run, debug, app, Bottle
 
 app = Bottle()

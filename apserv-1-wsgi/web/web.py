@@ -7,7 +7,7 @@ version = '1.5'
 
 params = {}
 params['version'] = version
-parmas['python_mode'] = "WSGI"
+params['python_mode'] = "WSGI"
 
 import datetime
 import ulid
@@ -15,7 +15,6 @@ import redis
 
 from tools import *
 
-#import bottle
 from bottle import get, post, route, run, debug, app, template, Bottle, static_file
 
 app = Bottle()

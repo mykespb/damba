@@ -2,5 +2,13 @@
 #gunicorn
 guvicorn
 starlette
+aiofiles
+jinja2
+python-multipart
+itsdangerous
+requests
+pyyaml
+graphene
+ujson
 ulid-py
 redis

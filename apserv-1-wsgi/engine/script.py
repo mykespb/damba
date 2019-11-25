@@ -15,7 +15,6 @@ params = {}
 params['version'] = version
 parmas['python_mode'] = "WSGI"
 
-#import bottle
 from bottle import get, post, route, run, debug, app, Bottle
 
 app = Bottle()
