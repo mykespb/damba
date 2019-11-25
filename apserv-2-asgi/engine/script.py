@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # main runner of damba engine
-# ver. 1.20. run 2019-11-22
+# ver. 2.1. run 2019-11-25
 # Mikhail Kolodin
 
-version = '1.20'
+version = '2.1'
 
 import datetime
 import ulid
@@ -20,7 +20,7 @@ app.config["autojson"] = True
 
 dt = datetime.datetime.now()
 dtstr = str(dt)
-print ("damba engine. starting at %s\n" % (dtstr,))
+print ("ASGI damba engine. starting at %s\n" % (dtstr,))
 
 print ("connect to redis: ", end="")
 myredis = None
@@ -54,7 +54,7 @@ def index ():
     intmyulid = myulid.int
     bmyulid = bazed_ulid(intmyulid)
 
-    return "<tt>The nice hello from engine ver.%s at %s<br />as long %s [len%d] and short %s [len%d]</tt>" % (
+    return "<tt>The ASGI hello from engine ver.%s at %s<br />as long %s [len%d] and short %s [len%d]</tt>" % (
         version, dtstr, strmyulid, len(strmyulid), bmyulid, len(bmyulid))
 
 # --------------- info

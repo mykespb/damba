@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # main runner of damba web
-# ver. 1.5. run 2019-11-22
+# ver. 2.1. run 2019-11-25
 # Mikhail Kolodin
 
-version = '1.5'
+version = '2.1'
 
 params = {}
 params['version'] = version
+parmas['python_mode'] = "ASGI"
 
 import datetime
 import ulid
@@ -23,7 +24,7 @@ app.config["autojson"] = True
 
 dt = datetime.datetime.now()
 dtstr = str(dt)
-print ("damba engine. starting at %s\n" % (dtstr,))
+print ("%s damba engine. starting at %s\n" % (params['python_mode'], dtstr,))
 
 #print ("connect to redis: ", end="")
 myredis = None
@@ -41,7 +42,7 @@ tpl = """<!DOCTYPE html><html>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <body>
-<p>This is Damba Web ver.{{version}}.</p>
+<p>This is {{python_mode}} Damba Web ver.{{version}}.</p>
 <p>Redis is {{redis_status}}.</p>
 </body>
 </html>

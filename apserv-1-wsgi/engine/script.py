@@ -1,15 +1,19 @@
 #!/usr/bin/env python
 # main runner of damba engine
-# ver. 1.20. run 2019-11-22
+# ver. 1.21. run 2019-11-25
 # Mikhail Kolodin
 
-version = '1.20'
+version = '1.21'
 
 import datetime
 import ulid
 import redis
 
 from tools import *
+
+params = {}
+params['version'] = version
+parmas['python_mode'] = "WSGI"
 
 #import bottle
 from bottle import get, post, route, run, debug, app, Bottle
@@ -54,7 +58,7 @@ def index ():
     intmyulid = myulid.int
     bmyulid = bazed_ulid(intmyulid)
 
-    return "<tt>The nice hello from engine ver.%s at %s<br />as long %s [len%d] and short %s [len%d]</tt>" % (
+    return "<tt>The {{python_mode}} hello from engine ver.%s at %s<br />as long %s [len%d] and short %s [len%d]</tt>" % (
         version, dtstr, strmyulid, len(strmyulid), bmyulid, len(bmyulid))
 
 # --------------- info
