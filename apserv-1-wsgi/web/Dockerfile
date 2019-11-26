@@ -15,3 +15,5 @@ EXPOSE 80
 
 ENTRYPOINT [ "python", "web.py" ]
 CMD [ "python", "./web.py" ]
+#ENTRYPOINT [ "start.sh" ]
+#CMD [ "start.sh" ]
