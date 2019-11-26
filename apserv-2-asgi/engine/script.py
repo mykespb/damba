@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # main runner of damba engine
-# ver. 2.1. run 2019-11-25
+# ver. 2.2. run 2019-11-26
 # Mikhail Kolodin
 
-version = '2.1'
+version = '2.2'
 python_mode = "ASGI"
 
 import datetime

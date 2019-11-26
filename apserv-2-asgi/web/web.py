@@ -1,29 +1,32 @@
 #!/usr/bin/env python
 # main runner of damba web
-# ver. 2.1. run 2019-11-25
+# ver. 2.2. run 2019-11-26
 # Mikhail Kolodin
 
-version = '2.1'
+version = '2.2'
 
 params = {}
 params['version'] = version
 params['python_mode'] = "ASGI"
+params['ASGI_driver'] = "hypercorn"
 
 import datetime
 import ulid
 import redis
+import jinja2
 
 from tools import *
 
-from bottle import get, post, route, run, debug, app, template, Bottle, static_file
+from quart import Quart, render_template_string
 
-app = Bottle()
-
-app.config["autojson"] = True
+app = Quart(__name__)
 
 dt = datetime.datetime.now()
 dtstr = str(dt)
-print ("%s damba engine. starting at %s\n" % (params['python_mode'], dtstr,))
+print ("%s damba engine with %s. starting at %s\n" % (
+    params['python_mode'], 
+    params['ASGI_driver'], 
+    dtstr,))
 
 #print ("connect to redis: ", end="")
 myredis = None
@@ -75,8 +78,8 @@ def redis_dec(func):
 
 # --------------- index
 
-@app.get('/')
-def index ():
+@app.route('/')
+async def index ():
     dt = datetime.datetime.now()
     dtstr = str(dt)
     myulid = ulid.new()
@@ -84,40 +87,36 @@ def index ():
     intmyulid = myulid.int
     bmyulid = bazed_ulid(intmyulid)
 
-    return template (tpl, **params)
-#    return "<tt>The nice hello from engine ver.%s at %s<br />as long %s [len%d] and short %s [len%d]</tt>" % (
-#        version, dtstr, strmyulid, len(strmyulid), bmyulid, len(bmyulid))
+    return await render_template_string(tpl, **params)
 
 # --------------- info
 
-@app.get('/info')
-def info():
-    return {"version": version, "datetime_utc": dtstr}
+@app.route('/info')
+async def info():
+    return await render_template_string (f"version: {{version}}, datetime_utc: {{dtstr}}.")
 
 # --------------- putredis
-#REDO
 
 @redis_dec
-@app.get('/putredis')
-def putredis():
+@app.route('/putredis')
+async def putredis():
     myredis.set("foo", "bar")
     myredis.set("name", "Василий")
-    return "set foo=bar, name=Василий"
+    return await render_template_string (f"set foo=name, name=Василий")
     
 # --------------- getredis
-#REDO
 
 @redis_dec
-@app.get('/getredis')
-def getredis():
+@app.route('/getredis')
+async def getredis():
     foo = myredis.get("foo")
     name = myredis.get("name")
-    return "got foo=%s, name=%s" % (str(foo), str(name))
+    return await render_template_string ("got foo=%s, name=%s" % (str(foo), str(name)))
 
 # ---------------- caller
 
 if __name__ == '__main__':
-    app.run (server='gunicorn', host='0.0.0.0', port=80, debug=True, reload=True)
+    app.run (server='hypercorn', host='0.0.0.0', port=80, debug=True, reload=True)
 
 #    app.debug (True)
 #    app.run (host='0.0.0.0', port=8080)

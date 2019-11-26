@@ -1,14 +1,5 @@
-#bottle
-#gunicorn
-guvicorn
-starlette
-aiofiles
-jinja2
-python-multipart
-itsdangerous
-requests
-pyyaml
-graphene
-ujson
+bottle
+gunicorn
 ulid-py
 redis
+jinja2
