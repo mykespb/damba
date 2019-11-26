@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # main runner of damba engine
-# ver. 1.21. run 2019-11-25
+# ver. 1.22. run 2019-11-26
 # Mikhail Kolodin
 
-version = '1.21'
+version = '1.22'
 
 import datetime
 import ulid
@@ -13,7 +13,7 @@ from tools import *
 
 params = {}
 params['version'] = version
-parmas['python_mode'] = "WSGI"
+params['python_mode'] = "WSGI"
 
 from bottle import get, post, route, run, debug, app, Bottle
 
