@@ -93,7 +93,9 @@ async def index ():
 
 @app.route('/info')
 async def info():
-    return await render_template_string (f"version: {{version}}, datetime_utc: {{dtstr}}.")
+    dt = datetime.datetime.now()
+    dtstr = str(dt)
+    return await render_template_string (f"version: {version}, datetime_utc: {dtstr}.")
 
 # --------------- putredis
 
