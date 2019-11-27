@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # main runner of damba engine
-# ver. 2.5. run 2019-11-27
+# ver. 2.6. run 2019-11-28
 # Mikhail Kolodin
 
-version = '2.5'
+version = '2.6'
 
 params = {}
 params['version'] = version
@@ -47,8 +47,6 @@ def redis_dec(func):
             return "no redis connection"
     return wrapper
 
-# --------------- web services
-
 # --------------- index
 
 @app.route('/')
@@ -63,39 +61,10 @@ async def index ():
     return await render_template_string("<tt>The %s hello from engine %s with ver.%s at %s<br />as long %s [len%d] and short %s [len%d]</tt>" % (
         params["web_mode"], params["web_driver"], version, dtstr, strmyulid, len(strmyulid), bmyulid, len(bmyulid)))
 
-# --------------- info
-
-@app.route('/info')
-async def info():
-    dt = datetime.datetime.now()
-    dtstr = str(dt)
-
-    return await render_template_string({**params, "dt_now": dtstr})
-
-# --------------- putredis
-
-@redis_dec
-@app.route('/putredis')
-async def putredis():
-    myredis.set("foo", "bar")
-    myredis.set("name", "Василий")
-
-    return await render_template_string("set foo=bar, name=Василий")
-    
-# --------------- getredis
-
-@redis_dec
-@app.route('/getredis')
-async def getredis():
-    foo = myredis.get("foo")
-    name = myredis.get("name")
-    
-    return await render_template_string("got foo=%s, name=%s" % (str(foo), str(name)))
-
 # ---------------- caller
 
 if __name__ == '__main__':
-    app.run (server=params["web_driver"], 
+    app.run (server=params["web_driver"],
         host='0.0.0.0', port=8001, debug=True, reload=True)
 
 #    app.debug (True)
