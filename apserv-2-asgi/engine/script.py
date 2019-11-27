@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # main runner of damba engine
-# ver. 2.3. run 2019-11-27
+# ver. 2.4. run 2019-11-27
 # Mikhail Kolodin
 
-version = '2.3.1'
+version = '2.4'
 
 params = {}
 params['version'] = version
-params['python_mode'] = "ASGI"
+params['web_mode'] = "ASGI"
 params['web_driver'] = "gunicorn"
 
 import datetime
@@ -24,7 +24,7 @@ app.config["autojson"] = True
 
 dt = datetime.datetime.now()
 dtstr = str(dt)
-print ("ASGI damba engine. starting at %s\n" % (dtstr,))
+print ("%s damba engine. starting at %s\n" % (params["web_mode"], dtstr,))
 
 print ("connect to redis: ", end="")
 myredis = None
@@ -59,7 +59,7 @@ def index ():
     bmyulid = bazed_ulid(intmyulid)
 
     return "<tt>The %s hello from engine %s with ver.%s at %s<br />as long %s [len%d] and short %s [len%d]</tt>" % (
-        params["python_mode"], params["web_driver"], version, dtstr, strmyulid, len(strmyulid), bmyulid, len(bmyulid))
+        params["web_mode"], params["web_driver"], version, dtstr, strmyulid, len(strmyulid), bmyulid, len(bmyulid))
 
 # --------------- info
 
@@ -67,15 +67,7 @@ def index ():
 def info():
     dt = datetime.datetime.now()
     dtstr = str(dt)
-#    params["dt_now"] = dtstr
     return {**params, "dt_now": dtstr}
-#    {
-#    "version": version, 
-#    "datetime_utc": dtstr, 
-#    "python_mode": params["python_mode"],
-#    "web_driver": params["web_driver"],
-#    params
-#    }
 
 # --------------- putredis
 

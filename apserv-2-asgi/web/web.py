@@ -7,7 +7,7 @@ version = '2.4'
 
 params = {}
 params['version'] = version
-params['python_mode'] = "ASGI"
+params['web_mode'] = "ASGI"
 params['web_driver'] = "hypercorn"
 
 import datetime
@@ -17,14 +17,15 @@ import jinja2
 
 from tools import *
 
-from quart import Quart, render_template_string, jsonify
+from quart import Quart, render_template_string
+#, jsonify
 
 app = Quart(__name__)
 
 dt = datetime.datetime.now()
 dtstr = str(dt)
 print ("%s damba engine with %s. starting at %s\n" % (
-    params['python_mode'], 
+    params['web_mode'], 
     params['web_driver'], 
     dtstr,))
 
@@ -44,7 +45,7 @@ tpl = """<!DOCTYPE html><html>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <body>
-<p>This is {{python_mode}} Damba Web ver.{{version}}.</p>
+<p>This is {{web_mode}} Damba Web ver.{{version}}.</p>
 <p>Redis is {{redis_status}}.</p>
 </body>
 </html>
@@ -95,15 +96,7 @@ async def index ():
 async def info():
     dt = datetime.datetime.now()
     dtstr = str(dt)
-#    params["dt_now"] = dtstr
     return await render_template_string (f"<tt>{params=}, {dtstr=}</tt>")
-#    {
-#    "version": version, 
-#    "datetime_utc": dtstr, 
-#    "python_mode": params["python_mode"],
-#    "web_driver": params["web_driver"],
-#    params
-#    }
 
 # --------------- putredis
 
