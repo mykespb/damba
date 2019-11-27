@@ -60,13 +60,13 @@ async def index ():
     intmyulid = myulid.int
     bmyulid = bazed_ulid(intmyulid)
 
-    return "<tt>The %s hello from engine %s with ver.%s at %s<br />as long %s [len%d] and short %s [len%d]</tt>" % (
-        params["web_mode"], params["web_driver"], version, dtstr, strmyulid, len(strmyulid), bmyulid, len(bmyulid))
+    return await render_template_string("<tt>The %s hello from engine %s with ver.%s at %s<br />as long %s [len%d] and short %s [len%d]</tt>" % (
+        params["web_mode"], params["web_driver"], version, dtstr, strmyulid, len(strmyulid), bmyulid, len(bmyulid)))
 
 # --------------- info
 
 @app.route('/info')
-def async info():
+async def info():
     dt = datetime.datetime.now()
     dtstr = str(dt)
     return await render_template_string({**params, "dt_now": dtstr})
@@ -75,7 +75,7 @@ def async info():
 
 @redis_dec
 @app.route('/putredis')
-def async putredis():
+async def putredis():
     myredis.set("foo", "bar")
     myredis.set("name", "Василий")
     return await render_template_string("set foo=bar, name=Василий")
@@ -84,7 +84,7 @@ def async putredis():
 
 @redis_dec
 @app.route('/getredis')
-def async getredis():
+async def getredis():
     foo = myredis.get("foo")
     name = myredis.get("name")
     return await render_template_string("got foo=%s, name=%s" % (str(foo), str(name)))
