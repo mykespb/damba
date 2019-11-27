@@ -1,24 +1,26 @@
 #!/usr/bin/env python
 # main runner of damba engine
-# ver. 2.4. run 2019-11-27
+# ver. 2.5. run 2019-11-27
 # Mikhail Kolodin
 
-version = '2.4'
+version = '2.5'
 
 params = {}
 params['version'] = version
+params['python_engine'] = "quart"
 params['web_mode'] = "ASGI"
-params['web_driver'] = "gunicorn"
+params['web_driver'] = "hypercorn"
 
 import datetime
 import ulid
 import redis
+import jinja2
 
 from tools import *
 
-from bottle import get, post, route, run, debug, app, Bottle
+from quart import Quart, render_template_string
 
-app = Bottle()
+app = Quart(__name__)
 
 app.config["autojson"] = True
 
@@ -49,8 +51,8 @@ def redis_dec(func):
 
 # --------------- index
 
-@app.get('/')
-def index ():
+@app.route('/')
+async def index ():
     dt = datetime.datetime.now()
     dtstr = str(dt)
     myulid = ulid.new()
@@ -63,29 +65,29 @@ def index ():
 
 # --------------- info
 
-@app.get('/info')
-def info():
+@app.route('/info')
+def async info():
     dt = datetime.datetime.now()
     dtstr = str(dt)
-    return {**params, "dt_now": dtstr}
+    return await render_template_string({**params, "dt_now": dtstr})
 
 # --------------- putredis
 
 @redis_dec
-@app.get('/putredis')
-def putredis():
+@app.route('/putredis')
+def async putredis():
     myredis.set("foo", "bar")
     myredis.set("name", "Василий")
-    return "set foo=bar, name=Василий"
+    return await render_template_string("set foo=bar, name=Василий")
     
 # --------------- getredis
 
 @redis_dec
-@app.get('/getredis')
-def getredis():
+@app.route('/getredis')
+def async getredis():
     foo = myredis.get("foo")
     name = myredis.get("name")
-    return "got foo=%s, name=%s" % (str(foo), str(name))
+    return await render_template_string("got foo=%s, name=%s" % (str(foo), str(name)))
 
 # ---------------- caller
 

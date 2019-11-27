@@ -13,5 +13,5 @@ COPY . .
 
 EXPOSE 8001
 
-ENTRYPOINT [ "python", "script.py" ]
-CMD [ "python", "./script.py" ]
+ENTRYPOINT [ "python", "script-bottle.py" ]
+CMD [ "python", "./script-bottle.py" ]

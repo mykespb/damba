@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # main runner of damba web
-# ver. 2.4. run 2019-11-27
+# ver. 2.5. run 2019-11-27
 # Mikhail Kolodin
 
-version = '2.4'
+version = '2.5'
 
 params = {}
 params['version'] = version
+params['python_engine'] = "quart"
 params['web_mode'] = "ASGI"
 params['web_driver'] = "hypercorn"
 
@@ -18,7 +19,6 @@ import jinja2
 from tools import *
 
 from quart import Quart, render_template_string
-#, jsonify
 
 app = Quart(__name__)
 
