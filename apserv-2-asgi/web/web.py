@@ -8,7 +8,7 @@ version = '2.2'
 params = {}
 params['version'] = version
 params['python_mode'] = "ASGI"
-params['ASGI_driver'] = "hypercorn"
+params['web_driver'] = "hypercorn"
 
 import datetime
 import ulid
@@ -25,7 +25,7 @@ dt = datetime.datetime.now()
 dtstr = str(dt)
 print ("%s damba engine with %s. starting at %s\n" % (
     params['python_mode'], 
-    params['ASGI_driver'], 
+    params['web_driver'], 
     dtstr,))
 
 #print ("connect to redis: ", end="")
@@ -118,7 +118,8 @@ async def getredis():
 # ---------------- caller
 
 if __name__ == '__main__':
-    app.run (server='hypercorn', host='0.0.0.0', port=80, debug=True, reload=True)
+    app.run (server=params["web_driver"], 
+        host='0.0.0.0', port=80, debug=True, reload=True)
 
 #    app.debug (True)
 #    app.run (host='0.0.0.0', port=8080)

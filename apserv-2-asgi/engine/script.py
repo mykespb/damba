@@ -1,10 +1,15 @@
 #!/usr/bin/env python
 # main runner of damba engine
-# ver. 2.2. run 2019-11-26
+# ver. 2.3. run 2019-11-27
 # Mikhail Kolodin
 
-version = '2.2'
+version = '2.3'
 python_mode = "ASGI"
+
+params = {}
+params['version'] = version
+params['python_mode'] = "ASGI"
+params['web_driver'] = "gunicorn"
 
 import datetime
 import ulid
@@ -54,14 +59,18 @@ def index ():
     intmyulid = myulid.int
     bmyulid = bazed_ulid(intmyulid)
 
-    return "<tt>The ASGI hello from engine ver.%s at %s<br />as long %s [len%d] and short %s [len%d]</tt>" % (
-        version, dtstr, strmyulid, len(strmyulid), bmyulid, len(bmyulid))
+    return "<tt>The %s hello from engine %s with ver.%s at %s<br />as long %s [len%d] and short %s [len%d]</tt>" % (
+        params["python_mode"], params["web_driver"], version, dtstr, strmyulid, len(strmyulid), bmyulid, len(bmyulid))
 
 # --------------- info
 
 @app.get('/info')
 def info():
-    return {"version": version, "datetime_utc": dtstr}
+    return {"version": version, 
+    "datetime_utc": dtstr, 
+    "python_mode": params["python_mode"],
+    "web_driver": params["web_driver"],
+    }
 
 # --------------- putredis
 
@@ -84,7 +93,8 @@ def getredis():
 # ---------------- caller
 
 if __name__ == '__main__':
-    app.run (server='gunicorn', host='0.0.0.0', port=8001, debug=True, reload=True)
+    app.run (server=params["web_driver"], 
+        host='0.0.0.0', port=8001, debug=True, reload=True)
 
 #    app.debug (True)
 #    app.run (host='0.0.0.0', port=8080)
