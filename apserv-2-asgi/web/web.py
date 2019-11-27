@@ -96,6 +96,7 @@ async def index ():
 async def info():
     dt = datetime.datetime.now()
     dtstr = str(dt)
+
     return await render_template_string (f"<tt>{params=}, {dtstr=}</tt>")
 
 # --------------- putredis
@@ -105,6 +106,7 @@ async def info():
 async def putredis():
     myredis.set("foo", "bar")
     myredis.set("name", "Василий")
+
     return await render_template_string (f"set foo=name, name=Василий")
     
 # --------------- getredis
@@ -114,6 +116,7 @@ async def putredis():
 async def getredis():
     foo = myredis.get("foo")
     name = myredis.get("name")
+    
     return await render_template_string ("got foo=%s, name=%s" % (str(foo), str(name)))
 
 # ---------------- caller
