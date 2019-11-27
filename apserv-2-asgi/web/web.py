@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # main runner of damba web
-# ver. 2.2. run 2019-11-26
+# ver. 2.4. run 2019-11-27
 # Mikhail Kolodin
 
-version = '2.2'
+version = '2.4'
 
 params = {}
 params['version'] = version
@@ -17,7 +17,7 @@ import jinja2
 
 from tools import *
 
-from quart import Quart, render_template_string
+from quart import Quart, render_template_string, jsonify
 
 app = Quart(__name__)
 
@@ -95,7 +95,15 @@ async def index ():
 async def info():
     dt = datetime.datetime.now()
     dtstr = str(dt)
-    return await render_template_string (f"version: {version}, datetime_utc: {dtstr}.")
+#    params["dt_now"] = dtstr
+    return await render_template_string (f"<tt>{params=}, {dtstr=}</tt>")
+#    {
+#    "version": version, 
+#    "datetime_utc": dtstr, 
+#    "python_mode": params["python_mode"],
+#    "web_driver": params["web_driver"],
+#    params
+#    }
 
 # --------------- putredis
 

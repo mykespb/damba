@@ -3,8 +3,7 @@
 # ver. 2.3. run 2019-11-27
 # Mikhail Kolodin
 
-version = '2.3'
-python_mode = "ASGI"
+version = '2.3.1'
 
 params = {}
 params['version'] = version
@@ -66,11 +65,17 @@ def index ():
 
 @app.get('/info')
 def info():
-    return {"version": version, 
-    "datetime_utc": dtstr, 
-    "python_mode": params["python_mode"],
-    "web_driver": params["web_driver"],
-    }
+    dt = datetime.datetime.now()
+    dtstr = str(dt)
+#    params["dt_now"] = dtstr
+    return {**params, "dt_now": dtstr}
+#    {
+#    "version": version, 
+#    "datetime_utc": dtstr, 
+#    "python_mode": params["python_mode"],
+#    "web_driver": params["web_driver"],
+#    params
+#    }
 
 # --------------- putredis
 
