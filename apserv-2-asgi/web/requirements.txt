@@ -3,6 +3,7 @@ hypercorn
 quart
 ulid-py
 redis
+aioredis
 
 #bottle
 #gunicorn

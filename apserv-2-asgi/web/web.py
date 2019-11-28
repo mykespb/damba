@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # main runner of damba web
-# ver. 2.5. run 2019-11-27
+# ver. 2.6. run 2019-11-28
 # Mikhail Kolodin
 
-version = '2.5'
+version = '2.6'
 
 params = {}
 params['version'] = version
@@ -13,12 +13,13 @@ params['web_driver'] = "hypercorn"
 
 import datetime
 import ulid
+import aioredis
 import redis
 import jinja2
 
 from tools import *
 
-from quart import Quart, render_template_string
+from quart import Quart, render_template_string, render_template
 
 app = Quart(__name__)
 
@@ -39,17 +40,6 @@ try:
 except:
 #    print ("cannot connect")
     params['redis_status'] = "off"
-
-tpl = """<!DOCTYPE html><html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-</head>
-<body>
-<p>This is {{web_mode}} Damba Web ver.{{version}}.</p>
-<p>Redis is {{redis_status}}.</p>
-</body>
-</html>
-"""
 
 # --------------- bazed ULID
 
@@ -88,7 +78,7 @@ async def index ():
     intmyulid = myulid.int
     bmyulid = bazed_ulid(intmyulid)
 
-    return await render_template_string(tpl, **params)
+    return await render_template("web-main.html", **params)
 
 # --------------- info
 
@@ -97,7 +87,7 @@ async def info():
     dt = datetime.datetime.now()
     dtstr = str(dt)
 
-    return await render_template_string (f"<tt>{params=}, {dtstr=}</tt>")
+    return await render_template_string (f"<tt>aha! {params=}, {dtstr=}</tt>")
 
 # --------------- putredis
 

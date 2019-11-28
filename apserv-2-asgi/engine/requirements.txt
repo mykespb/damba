@@ -6,3 +6,4 @@ quart
 #meinheld
 ulid-py
 redis
+aioredis
