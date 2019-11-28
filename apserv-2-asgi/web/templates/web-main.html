@@ -20,8 +20,15 @@ with ULID: {{ ulid }}</p>
 <hr>
 
 <p>Any ULID?
+	{% if redisfoo %}
 	{{ redisfoo }}
+	{% else %}
+	nothing set yet. :(
+	{% endif %}
 </p>
+
+<a href="/clearmess" method=post>Clear message</a>
+<br /><br />
 
 <a href="/newmessref" method=post>Send random message</a>
 <br /><br />

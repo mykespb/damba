@@ -83,6 +83,18 @@ async def info():
 # --------------- newmess
 
 @redis_dec
+@app.route('/clearmess', methods=['GET', 'POST'])
+async def clearmess():
+
+    myredis.delete("foo")
+    params['redisfoo'] = myredis.get('foo')
+
+    return await render_template("web-main.html", **params)
+
+
+# --------------- newmess
+
+@redis_dec
 @app.route('/newmessref', methods=['GET', 'POST'])
 async def newmessref():
     # await websocket.send(f"123")
@@ -95,7 +107,6 @@ async def newmessref():
     strmyulid = myulid.str
     intmyulid = myulid.int
     bmyulid = bazed_ulid(intmyulid)
-    params["ulid"] = bmyulid
 
     myredis.set("foo", bmyulid)
     params['redisfoo'] = myredis.get('foo')
@@ -116,7 +127,6 @@ async def newmessform():
     strmyulid = myulid.str
     intmyulid = myulid.int
     bmyulid = bazed_ulid(intmyulid)
-    params["ulid"] = bmyulid
 
     myredis.set("foo", bmyulid)
     params['redisfoo'] = myredis.get('foo')
