@@ -4,15 +4,3 @@ quart
 ulid-py
 redis
 aioredis
-
-#bottle
-#gunicorn
-#guvicorn
-#starlette
-#aiofiles
-#python-multipart
-#itsdangerous
-#requests
-#pyyaml
-#graphene
-#ujson

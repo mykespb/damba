@@ -13,10 +13,5 @@ COPY . .
 
 EXPOSE 80
 
-#ENTRYPOINT [ "python", "web.py" ]
-#CMD [ "python", "./web.py" ]
-#ENTRYPOINT [ "hypercorn",  "web:app", "-b", "0.0.0.0:80", "--keep-alive", "1000" ]
-#CMD [ "hypercorn",  "web:app", "-b", "0.0.0.0:80", "--keep-alive", "1000" ]
-
 ENTRYPOINT [ "./start.sh" ]
 #CMD [ "./start.sh" ]
