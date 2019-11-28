@@ -25,6 +25,8 @@ app = Quart(__name__)
 
 dt = datetime.datetime.now()
 dtstr = str(dt)
+params["dt"] = dtstr
+
 print ("%s damba engine with %s. starting at %s\n" % (
     params['web_mode'], 
     params['web_driver'], 
@@ -73,10 +75,13 @@ def redis_dec(func):
 async def index ():
     dt = datetime.datetime.now()
     dtstr = str(dt)
+    params["dt_now"] = dtstr
+
     myulid = ulid.new()
     strmyulid = myulid.str
     intmyulid = myulid.int
     bmyulid = bazed_ulid(intmyulid)
+    params["ulid"] = bmyulid
 
     return await render_template("web-main.html", **params)
 
