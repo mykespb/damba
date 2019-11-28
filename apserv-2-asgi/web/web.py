@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # main runner of damba web
-# ver. 2.6. run 2019-11-28
+# ver. 2.7. run 2019-11-28
 # Mikhail Kolodin
 
-version = '2.6'
+version = '2.7'
 
 params = {}
 params['version'] = version
@@ -19,7 +19,7 @@ import jinja2
 
 from tools import *
 
-from quart import Quart, render_template_string, render_template
+from quart import Quart, render_template_string, render_template, websocket
 
 app = Quart(__name__)
 
@@ -42,20 +42,6 @@ try:
 except:
 #    print ("cannot connect")
     params['redis_status'] = "off"
-
-# --------------- bazed ULID
-
-def bazed_ulid(n):
-    baza = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    bl = len(baza)
-    res = ''
-    if n == 0:
-        return '0'
-    while n:
-        r = n % bl
-        n //= bl
-        res = baza[r] + res
-    return res
 
 # --------------- decorators
 
@@ -99,35 +85,14 @@ async def info():
 @redis_dec
 @app.route('/newmessref', methods=['GET', 'POST'])
 async def newmessref():
-    dt = datetime.datetime.now()
-    dtstr = str(dt)
-    params["dt_now"] = dtstr
-
-    myulid = ulid.new()
-    strmyulid = myulid.str
-    intmyulid = myulid.int
-    bmyulid = bazed_ulid(intmyulid)
-    params["ulid"] = bmyulid
-
-    myredis.set("newmess", bmyulid)
-
+    # await websocket.send(f"123")
     return await render_template("web-main.html", **params)
+
 
 @redis_dec
 @app.route('/newmessform', methods=['POST'])
 async def newmessform():
-    dt = datetime.datetime.now()
-    dtstr = str(dt)
-    params["dt_now"] = dtstr
-
-    myulid = ulid.new()
-    strmyulid = myulid.str
-    intmyulid = myulid.int
-    bmyulid = bazed_ulid(intmyulid)
-    params["ulid"] = bmyulid
-
-    myredis.set("newmess", bmyulid)
-
+    # await websocket.send(f"456")
     return await render_template("web-main.html", **params)
 
 # --------------- putredis

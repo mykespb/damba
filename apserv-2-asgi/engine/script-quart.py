@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # main runner of damba engine
-# ver. 2.6. run 2019-11-28
+# ver. 2.7. run 2019-11-28
 # Mikhail Kolodin
 
-version = '2.6'
+version = '2.7'
 
 params = {}
 params['version'] = version
@@ -19,7 +19,7 @@ import jinja2
 
 from tools import *
 
-from quart import Quart, render_template_string
+from quart import Quart, render_template_string, websocket
 
 app = Quart(__name__)
 
@@ -47,6 +47,15 @@ def redis_dec(func):
         else:
             return "no redis connection"
     return wrapper
+
+# --------------- websockets
+
+@app.websocket('/ws')
+async def wsproc():
+    info = await websocket.receive()
+    if info and type(info) == str:
+        inforev = info.reverse()
+        await websocket.send(inforev)
 
 # --------------- index
 
