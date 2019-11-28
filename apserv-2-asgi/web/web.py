@@ -86,6 +86,20 @@ async def info():
 @app.route('/newmessref', methods=['GET', 'POST'])
 async def newmessref():
     # await websocket.send(f"123")
+
+    dt = datetime.datetime.now()
+    dtstr = str(dt)
+    params["dt_now"] = dtstr
+
+    myulid = ulid.new()
+    strmyulid = myulid.str
+    intmyulid = myulid.int
+    bmyulid = bazed_ulid(intmyulid)
+    params["ulid"] = bmyulid
+
+    myredis.set("foo", bmyulid)
+    params['redisfoo'] = myredis.get('foo')
+
     return await render_template("web-main.html", **params)
 
 
@@ -93,6 +107,20 @@ async def newmessref():
 @app.route('/newmessform', methods=['POST'])
 async def newmessform():
     # await websocket.send(f"456")
+
+    dt = datetime.datetime.now()
+    dtstr = str(dt)
+    params["dt_now"] = dtstr
+
+    myulid = ulid.new()
+    strmyulid = myulid.str
+    intmyulid = myulid.int
+    bmyulid = bazed_ulid(intmyulid)
+    params["ulid"] = bmyulid
+
+    myredis.set("foo", bmyulid)
+    params['redisfoo'] = myredis.get('foo')
+
     return await render_template("web-main.html", **params)
 
 # --------------- putredis
