@@ -1,4 +1,5 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html>
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
@@ -10,8 +11,16 @@ current time: {{ dt_now }}
 with ULID: {{ ulid }}</p>
 <hr>
 
-<p>This is {{web_mode}} Damba Web ver.{{version}}.</p>
-<p>Redis is {{redis_status}}.</p>
+<p>This is {{ web_mode }} Damba Web ver.{{ version }}.</p>
+<p>Redis is {{ redis_status }}.</p>
+<hr>
+
+<a href="/newmessref" method=post>Send random message</a>
+<br /><br />
+
+<form action="/newmessform" method="post">
+<input type="submit" name="newmess" id="newmess" value="Another post new message" />
+</form>
 <hr>
 
 </body>

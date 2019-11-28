@@ -94,6 +94,42 @@ async def info():
 
     return await render_template_string (f"<tt>aha! {params=}, {dtstr=}</tt>")
 
+# --------------- newmess
+
+@redis_dec
+@app.route('/newmessref', methods=['GET', 'POST'])
+async def newmessref():
+    dt = datetime.datetime.now()
+    dtstr = str(dt)
+    params["dt_now"] = dtstr
+
+    myulid = ulid.new()
+    strmyulid = myulid.str
+    intmyulid = myulid.int
+    bmyulid = bazed_ulid(intmyulid)
+    params["ulid"] = bmyulid
+
+    myredis.set("newmess", bmyulid)
+
+    return await render_template("web-main.html", **params)
+
+@redis_dec
+@app.route('/newmessform', methods=['POST'])
+async def newmessform():
+    dt = datetime.datetime.now()
+    dtstr = str(dt)
+    params["dt_now"] = dtstr
+
+    myulid = ulid.new()
+    strmyulid = myulid.str
+    intmyulid = myulid.int
+    bmyulid = bazed_ulid(intmyulid)
+    params["ulid"] = bmyulid
+
+    myredis.set("newmess", bmyulid)
+
+    return await render_template("web-main.html", **params)
+
 # --------------- putredis
 
 @redis_dec
