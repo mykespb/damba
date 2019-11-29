@@ -1,0 +1,81 @@
+version: "3"
+
+services:
+
+  engine:
+    build:
+      context: "./engine"
+    depends_on: 
+      - db
+    restart: always
+
+  db:
+    image: "redis:alpine"
+    ports:
+      - "6379"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 20M
+        reservations:
+          cpus: "0.25"
+          memory: 10M
+    restart: always
+
+  web:
+    image: "damba-min-web"
+    build: "./web"
+    ports: "8000:80"
+    depends_on: 
+      - engine
+      - db
+    restart: always
+
+  tasker:
+    build:
+      context: "./tasker"
+    depends_on: 
+      - engine
+    restart: always
+
+  logger:
+    build:
+      context: "./logger"
+    depends_on: 
+      - engine
+    restart: always
+    volumes: 
+      - "./log/log.txt:/data/log.txt"
+      - data
+
+  autorunner:
+    build:
+	  context: "./autorunner"
+    depends_on: 
+      - engine
+    restart: always
+
+  cli:
+    build:
+	  context: "./cli"    
+    depends_on: 
+      - engine
+    restart: always
+	  
+  web:
+    build:
+	  context: "./web"    
+    depends_on: 
+      - engine
+    restart: always
+    ports:
+      - "8001:80"
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  data:
+  

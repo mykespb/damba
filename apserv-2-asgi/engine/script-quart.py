@@ -50,12 +50,13 @@ def redis_dec(func):
 
 # --------------- websockets
 
-@app.websocket('/ws')
-async def wsproc():
-    info = await websocket.receive()
-    if info and type(info) == str:
-        inforev = info.reverse()
-        await websocket.send(inforev)
+# @app.websocket('/ws')
+# async def wsproc():
+#     while True:
+#         info = await websocket.receive()
+#         if info and type(info) == str:
+#             inforev = info.reverse()
+#             await websocket.send(inforev)
 
 # --------------- index
 

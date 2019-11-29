@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+
+  engine:
+    build: "./engine"
+    image: "damba-min-engine"
+    ports: 
+      - "8001"
+      - "6379"
+    volumes:
+      - "./engine:/usr/src/app"
+    depends_on:
+      - db
+
+  db:
+    build: "./db"
+    image: "damba-min-redis"
+    ports: 
+      - "6379"
+  
+  web:
+    build: "./web"
+    image: "damba-min-web"
+    ports: 
+      - "8001"
+      - "8080:80"
+      - "6379"
+    volumes:
+      - "./web:/usr/src/app"
+    depends_on:
+      - db
+      - engine
