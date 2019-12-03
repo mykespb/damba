@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # main runner of damba engine
-# ver. 2.4. run 2019-11-27
+# ver. 3.1 run 2019-12-03
 # Mikhail Kolodin
 
-version = '2.4'
+version = '3.1'
 
 params = {}
 params['version'] = version
 params['python_engine'] = "bottle"
 params['web_mode'] = "ASGI"
-params['web_driver'] = "gunicorn"
+params['web_driver'] = "python"
 
 import datetime
 import ulid
@@ -91,8 +91,7 @@ def getredis():
 # ---------------- caller
 
 if __name__ == '__main__':
-    app.run (server=params["web_driver"], 
-        host='0.0.0.0', port=8001, debug=True, reload=True)
+    app.run (host='0.0.0.0', port=8001, debug=True, reload=True)
 
 #    app.debug (True)
 #    app.run (host='0.0.0.0', port=8080)
