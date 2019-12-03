@@ -1,36 +1,30 @@
 #!/usr/bin/env python
 # main runner of damba web
-# ver. 2.7. run 2019-11-28
+# ver. 3.1. run 2019-12-03
 # Mikhail Kolodin
 
-version = '2.7'
+version = '3.1'
 
 params = {}
 params['version'] = version
-params['python_engine'] = "quart"
-params['web_mode'] = "ASGI"
+params['web_mode'] = "WSGI"
 params['web_driver'] = "hypercorn"
 
 import datetime
 import ulid
-import aioredis
 import redis
-import jinja2
 
 from tools import *
 
-from quart import Quart, render_template_string, render_template, websocket
+from bottle import get, post, route, run, debug, app, template, Bottle, static_file
 
-app = Quart(__name__)
+app = Bottle()
+
+app.config["autojson"] = True
 
 dt = datetime.datetime.now()
 dtstr = str(dt)
-params["dt"] = dtstr
-
-print ("%s damba engine with %s. starting at %s\n" % (
-    params['web_mode'], 
-    params['web_driver'], 
-    dtstr,))
+print ("%s damba engine. starting at %s\n" % (params['web_mode'], dtstr,))
 
 #print ("connect to redis: ", end="")
 myredis = None
@@ -42,6 +36,32 @@ try:
 except:
 #    print ("cannot connect")
     params['redis_status'] = "off"
+
+tpl = """<!DOCTYPE html><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<p>This is {{web_mode}} Damba Web ver.{{version}}.</p>
+<p>Redis is {{redis_status}}.</p>
+<p>Nginx powered.</p>
+</body>
+</html>
+"""
+
+# --------------- bazed ULID
+
+def bazed_ulid(n):
+    baza = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    bl = len(baza)
+    res = ''
+    if n == 0:
+        return '0'
+    while n:
+        r = n % bl
+        n //= bl
+        res = baza[r] + res
+    return res
 
 # --------------- decorators
 
@@ -57,107 +77,49 @@ def redis_dec(func):
 
 # --------------- index
 
-@app.route('/')
-async def index ():
+@app.get('/')
+def index ():
     dt = datetime.datetime.now()
     dtstr = str(dt)
-    params["dt_now"] = dtstr
-
     myulid = ulid.new()
     strmyulid = myulid.str
     intmyulid = myulid.int
     bmyulid = bazed_ulid(intmyulid)
-    params["ulid"] = bmyulid
 
-    return await render_template("web-main.html", **params)
+    return template (tpl, **params)
+#    return "<tt>The nice hello from engine ver.%s at %s<br />as long %s [len%d] and short %s [len%d]</tt>" % (
+#        version, dtstr, strmyulid, len(strmyulid), bmyulid, len(bmyulid))
 
 # --------------- info
 
-@app.route('/info')
-async def info():
-    dt = datetime.datetime.now()
-    dtstr = str(dt)
-
-    return await render_template_string (f"<tt>aha! {params=}, {dtstr=}</tt>")
-
-# --------------- newmess
-
-@redis_dec
-@app.route('/clearmess', methods=['GET', 'POST'])
-async def clearmess():
-
-    myredis.delete("foo")
-    params['redisfoo'] = myredis.get('foo')
-
-    return await render_template("web-main.html", **params)
-
-
-# --------------- newmess
-
-@redis_dec
-@app.route('/newmessref', methods=['GET', 'POST'])
-async def newmessref():
-    # await websocket.send(f"123")
-
-    dt = datetime.datetime.now()
-    dtstr = str(dt)
-    params["dt_now"] = dtstr
-
-    myulid = ulid.new()
-    strmyulid = myulid.str
-    intmyulid = myulid.int
-    bmyulid = bazed_ulid(intmyulid)
-
-    myredis.set("foo", bmyulid)
-    params['redisfoo'] = myredis.get('foo')
-
-    return await render_template("web-main.html", **params)
-
-
-@redis_dec
-@app.route('/newmessform', methods=['POST'])
-async def newmessform():
-    # await websocket.send(f"456")
-
-    dt = datetime.datetime.now()
-    dtstr = str(dt)
-    params["dt_now"] = dtstr
-
-    myulid = ulid.new()
-    strmyulid = myulid.str
-    intmyulid = myulid.int
-    bmyulid = bazed_ulid(intmyulid)
-
-    myredis.set("foo", bmyulid)
-    params['redisfoo'] = myredis.get('foo')
-
-    return await render_template("web-main.html", **params)
+@app.get('/info')
+def info():
+    return {"version": version, "datetime_utc": dtstr}
 
 # --------------- putredis
+#REDO
 
 @redis_dec
-@app.route('/putredis')
-async def putredis():
+@app.get('/putredis')
+def putredis():
     myredis.set("foo", "bar")
     myredis.set("name", "Василий")
-
-    return await render_template_string (f"set foo=name, name=Василий")
+    return "set foo=bar, name=Василий"
     
 # --------------- getredis
+#REDO
 
 @redis_dec
-@app.route('/getredis')
-async def getredis():
+@app.get('/getredis')
+def getredis():
     foo = myredis.get("foo")
     name = myredis.get("name")
-    
-    return await render_template_string ("got foo=%s, name=%s" % (str(foo), str(name)))
+    return "got foo=%s, name=%s" % (str(foo), str(name))
 
 # ---------------- caller
 
 if __name__ == '__main__':
-    app.run (server=params["web_driver"], 
-        host='0.0.0.0', port=80, debug=True, reload=True)
+    app.run (server='gunicorn', host='0.0.0.0', port=80, debug=True, reload=True)
 
 #    app.debug (True)
 #    app.run (host='0.0.0.0', port=8080)
