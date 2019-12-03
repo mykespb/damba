@@ -8,7 +8,7 @@ version = '3.1'
 params = {}
 params['version'] = version
 params['python_engine'] = "bottle"
-params['web_mode'] = "ASGI"
+params['web_mode'] = "WSGI"
 params['web_driver'] = "python"
 
 import datetime
