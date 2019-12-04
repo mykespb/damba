@@ -8,6 +8,8 @@
 # --------------- bazed ULID
 
 def bazed_ulid(n):
+    """ recode number in ULID format """
+    
     baza = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     bl = len(baza)
     res = ''

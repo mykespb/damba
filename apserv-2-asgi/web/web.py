@@ -46,6 +46,8 @@ except:
 # --------------- decorators
 
 def redis_dec(func):
+    """ deco for redis db calls"""
+
     def wrapper(*args, **kwargs):
         if myredis:
             func(*args, **kwargs)
@@ -59,6 +61,8 @@ def redis_dec(func):
 
 @app.route('/')
 async def index ():
+    """ info req """
+
     dt = datetime.datetime.now()
     dtstr = str(dt)
     params["dt_now"] = dtstr
@@ -75,6 +79,8 @@ async def index ():
 
 @app.route('/info')
 async def info():
+    """ info req """
+
     dt = datetime.datetime.now()
     dtstr = str(dt)
 
@@ -85,6 +91,7 @@ async def info():
 @redis_dec
 @app.route('/clearmess', methods=['GET', 'POST'])
 async def clearmess():
+    """ clear messages req """
 
     myredis.delete("foo")
     params['redisfoo'] = myredis.get('foo')
@@ -138,6 +145,8 @@ async def newmessform():
 @redis_dec
 @app.route('/putredis')
 async def putredis():
+    """ test req to set redis value """
+
     myredis.set("foo", "bar")
     myredis.set("name", "Василий")
 
@@ -148,6 +157,8 @@ async def putredis():
 @redis_dec
 @app.route('/getredis')
 async def getredis():
+    """ test req to get redis value """
+
     foo = myredis.get("foo")
     name = myredis.get("name")
     

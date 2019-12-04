@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # main runner of damba engine
-# ver. 2.7. run 2019-11-28
+# ver. 2.8. run 2019-12-04
 # Mikhail Kolodin
 
-version = '2.7'
+version = '2.8'
 
 params = {}
 params['version'] = version
@@ -41,6 +41,8 @@ except:
 # --------------- decorators
 
 def redis_dec(func):
+    """ deco for redis db calls"""
+
     def wrapper(*args, **kwargs):
         if myredis:
             func(*args, **kwargs)
@@ -62,6 +64,8 @@ def redis_dec(func):
 
 @app.route('/')
 async def index ():
+    """ info req """
+
     dt = datetime.datetime.now()
     dtstr = str(dt)
     myulid = ulid.new()

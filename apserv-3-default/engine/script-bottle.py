@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # main runner of damba engine
-# ver. 3.1 run 2019-12-03
+# ver. 3.2 run 2019-12-04
 # Mikhail Kolodin
 
-version = '3.1'
+version = '3.2'
 
 params = {}
 params['version'] = version
@@ -39,11 +39,14 @@ except:
 # --------------- decorators
 
 def redis_dec(func):
+    """ test req to set redis value """
+
     def wrapper(*args, **kwargs):
         if myredis:
             func(*args, **kwargs)
         else:
             return "no redis connection"
+
     return wrapper
 
 # --------------- web services
@@ -52,6 +55,8 @@ def redis_dec(func):
 
 @app.get('/')
 def index ():
+    """ index req """
+
     dt = datetime.datetime.now()
     dtstr = str(dt)
     myulid = ulid.new()
@@ -66,6 +71,8 @@ def index ():
 
 @app.get('/info')
 def info():
+    """ info req """
+
     dt = datetime.datetime.now()
     dtstr = str(dt)
     return {**params, "dt_now": dtstr}
@@ -75,6 +82,8 @@ def info():
 @redis_dec
 @app.get('/putredis')
 def putredis():
+    """ test req to set redis value """
+
     myredis.set("foo", "bar")
     myredis.set("name", "Василий")
     return "set foo=bar, name=Василий"
@@ -84,6 +93,8 @@ def putredis():
 @redis_dec
 @app.get('/getredis')
 def getredis():
+    """ test req to get redis value """
+
     foo = myredis.get("foo")
     name = myredis.get("name")
     return "got foo=%s, name=%s" % (str(foo), str(name))

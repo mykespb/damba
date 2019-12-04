@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # main runner of damba web
-# ver. 1.5. run 2019-11-25
+# ver. 1.6. run 2019-12-04
 # Mikhail Kolodin
 
-version = '1.5'
+version = '1.6'
 
 params = {}
 params['version'] = version
@@ -50,6 +50,8 @@ tpl = """<!DOCTYPE html><html>
 # --------------- bazed ULID
 
 def bazed_ulid(n):
+    """ recode number in ULID format """
+    
     baza = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     bl = len(baza)
     res = ''
@@ -64,6 +66,8 @@ def bazed_ulid(n):
 # --------------- decorators
 
 def redis_dec(func):
+    """ deco for redis db calls"""
+
     def wrapper(*args, **kwargs):
         if myredis:
             func(*args, **kwargs)
@@ -77,6 +81,8 @@ def redis_dec(func):
 
 @app.get('/')
 def index ():
+    """ main req """
+
     dt = datetime.datetime.now()
     dtstr = str(dt)
     myulid = ulid.new()
@@ -92,6 +98,8 @@ def index ():
 
 @app.get('/info')
 def info():
+    """ info req """
+
     return {"version": version, "datetime_utc": dtstr}
 
 # --------------- putredis
@@ -100,8 +108,11 @@ def info():
 @redis_dec
 @app.get('/putredis')
 def putredis():
+    """ test req to set redis value """
+
     myredis.set("foo", "bar")
     myredis.set("name", "Василий")
+
     return "set foo=bar, name=Василий"
     
 # --------------- getredis
@@ -110,8 +121,11 @@ def putredis():
 @redis_dec
 @app.get('/getredis')
 def getredis():
+    """ test req to get redis value """
+
     foo = myredis.get("foo")
     name = myredis.get("name")
+
     return "got foo=%s, name=%s" % (str(foo), str(name))
 
 # ---------------- caller
