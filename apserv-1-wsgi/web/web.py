@@ -81,7 +81,7 @@ def redis_dec(func):
 
 @app.get('/')
 def index ():
-    """ main req """
+    """ index req """
 
     dt = datetime.datetime.now()
     dtstr = str(dt)
