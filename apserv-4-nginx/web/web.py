@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # main runner of damba web
-# ver. 3.2. run 2019-12-04
+# ver. 3.3. run 2019-12-10
 # Mikhail Kolodin
 
-version = '3.2'
+version = '3.3'
 
 params = {}
 params['version'] = version
@@ -49,22 +49,6 @@ tpl = """<!DOCTYPE html><html>
 </html>
 """
 
-# --------------- bazed ULID
-
-def bazed_ulid(n):
-    """ recode number in ULID format """
-    
-    baza = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    bl = len(baza)
-    res = ''
-    if n == 0:
-        return '0'
-    while n:
-        r = n % bl
-        n //= bl
-        res = baza[r] + res
-
-    return res
 
 # --------------- decorators
 
