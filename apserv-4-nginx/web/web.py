@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # main runner of damba web
-# ver. 3.3. run 2019-12-10
+# ver. 3.3. run 2019-12-16
 # Mikhail Kolodin
 
 version = '3.3'
@@ -8,7 +8,7 @@ version = '3.3'
 params = {}
 params['version'] = version
 params['web_mode'] = "WSGI"
-params['web_driver'] = "hypercorn"
+params['web_driver'] = "self"
 
 import datetime
 import ulid
