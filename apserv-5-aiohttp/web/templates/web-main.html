@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!-- Mikhail Kolodin. Damba. web-main.html. 2019-11-28 -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<p>Hello from Damba, 
+started @ {{ dt }}, 
+<br />
+current time: {{ dt_now }} 
+with ULID: {{ ulid }}</p>
+<hr>
+
+<p>This is {{ web_mode }} Damba Web ver.{{ version }}.</p>
+<p>Redis is {{ redis_status }}.</p>
+<hr>
+
+<p><a href="/">Go Home!</a></p>
+<hr>
+
+<p>Any ULID?
+	{% if redisfoo %}
+	{{ redisfoo }}
+	{% else %}
+	nothing set yet. :(
+	{% endif %}
+</p>
+
+<a href="/clearmess" method=post>Clear message</a>
+<br /><br />
+
+<a href="/newmessref" method=post>Send random message</a>
+<br /><br />
+
+<form action="/newmessform" method="post">
+<input type="submit" name="newmess" id="newmess" value="Another post new message" />
+</form>
+<hr>
+
+</body>
+</html>
