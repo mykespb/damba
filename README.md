@@ -8,3 +8,5 @@ Some tests for Damba project with WSGI arch.
 ASGI subproject started with Starlett and FactAPI in mind.
 Added separate Bottle and Quart subprojects with hypercorn.
 
+2020-01-28 2020-01-28 v.5.1
+aiohttp version started.
