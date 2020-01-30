@@ -14,6 +14,8 @@ import datetime
 import ulid
 import redis
 import aiohttp
+import asyncio
+from aiohttp import web
 
 from tools import *
 
@@ -62,8 +64,7 @@ def redis_dec(func):
 
 # --------------- index
 
-@app.get('/')
-def index ():
+async def handle(request):
     """ index req """
 
     dt = datetime.datetime.now()
@@ -72,47 +73,58 @@ def index ():
     strmyulid = myulid.str
     intmyulid = myulid.int
     bmyulid = bazed_ulid(intmyulid)
+    
+    text = tpl % (
+        version, dtstr, strmyulid, len(strmyulid), bmyulid, len(bmyulid))
 
-    return template (tpl, **params)
+#    return template (tpl, **params)
+    return web.Response (text=text)
+    
 #    return "<tt>The nice hello from engine ver.%s at %s<br />as long %s [len%d] and short %s [len%d]</tt>" % (
 #        version, dtstr, strmyulid, len(strmyulid), bmyulid, len(bmyulid))
 
-# --------------- info
+#~ # --------------- info
 
-@app.get('/info')
-def info():
-    """ info req """
+#~ @app.get('/info')
+#~ def info():
+    #~ """ info req """
 
-    return {"version": version, "datetime_utc": dtstr}
+    #~ return {"version": version, "datetime_utc": dtstr}
 
-# --------------- putredis
-#REDO
+#~ # --------------- putredis
+#~ #REDO
 
-@redis_dec
-@app.get('/putredis')
-def putredis():
-    """ test req to set redis value """
+#~ @redis_dec
+#~ @app.get('/putredis')
+#~ def putredis():
+    #~ """ test req to set redis value """
 
-    myredis.set("foo", "bar")
-    myredis.set("name", "Василий")
-    return "set foo=bar, name=Василий"
+    #~ myredis.set("foo", "bar")
+    #~ myredis.set("name", "Василий")
+    #~ return "set foo=bar, name=Василий"
     
-# --------------- getredis
-#REDO
+#~ # --------------- getredis
+#~ #REDO
 
-@redis_dec
-@app.get('/getredis')
-def getredis():
-    """ test req to get redis value """
+#~ @redis_dec
+#~ @app.get('/getredis')
+#~ def getredis():
+    #~ """ test req to get redis value """
 
-    foo = myredis.get("foo")
-    name = myredis.get("name")
-    return "got foo=%s, name=%s" % (str(foo), str(name))
+    #~ foo = myredis.get("foo")
+    #~ name = myredis.get("name")
+    #~ return "got foo=%s, name=%s" % (str(foo), str(name))
 
 # ---------------- caller
 
+app = web.Application()
+
+app.add_route (web.get ('/', handle))
+
 if __name__ == '__main__':
-    app.run (host='0.0.0.0', port=80, debug=True, reload=True)
+    web.run_app (app)
+    
+#    app.run (host='0.0.0.0', port=80, debug=True, reload=True)
 #    app.run (server='gunicorn', host='0.0.0.0', port=80, debug=True, reload=True)
 
 #    app.debug (True)

@@ -2,3 +2,12 @@ ulid-py
 redis
 aioredis
 aiohttp
+asyncio
+async_timeout
+attrs
+chardet
+cchardet
+multidict
+yarl
+aiodns
+brotlipy
