@@ -1,26 +1,21 @@
 #!/usr/bin/env python
 # main runner of damba web
-# ver. 3.3. run 2019-12-16
+# ver. 3.4. run 2020-01-30
 # Mikhail Kolodin
 
-version = '3.3'
+version = '3.4'
 
 params = {}
 params['version'] = version
-params['web_mode'] = "WSGI"
-params['web_driver'] = "self"
+params['web_mode'] = "ASGI"
+params['web_driver'] = "aiohttp"
 
 import datetime
 import ulid
 import redis
+import aiohttp
 
 from tools import *
-
-from bottle import get, post, route, run, debug, app, template, Bottle, static_file
-
-app = Bottle()
-
-app.config["autojson"] = True
 
 dt = datetime.datetime.now()
 dtstr = str(dt)
