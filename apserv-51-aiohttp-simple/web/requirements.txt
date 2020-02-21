@@ -1,0 +1,11 @@
+ulid-py
+aiohttp
+asyncio
+async_timeout
+attrs
+chardet
+cchardet
+multidict
+yarl
+aiodns
+hypercorn
