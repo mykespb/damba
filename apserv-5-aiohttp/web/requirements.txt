@@ -10,4 +10,3 @@ cchardet
 multidict
 yarl
 aiodns
-brotlipy

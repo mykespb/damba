@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # main runner of damba web
-# ver. 3.4. run 2020-01-30
+# ver. 3.4. run 2020-02-21
 # Mikhail Kolodin
 
-version = '3.4'
+version = '4.1'
 
 params = {}
 params['version'] = version
@@ -13,7 +13,7 @@ params['web_driver'] = "aiohttp"
 import datetime
 import ulid
 import redis
-import aiohttp
+#~ import aiohttp
 import asyncio
 from aiohttp import web
 
@@ -83,38 +83,6 @@ async def handle(request):
 #    return "<tt>The nice hello from engine ver.%s at %s<br />as long %s [len%d] and short %s [len%d]</tt>" % (
 #        version, dtstr, strmyulid, len(strmyulid), bmyulid, len(bmyulid))
 
-#~ # --------------- info
-
-#~ @app.get('/info')
-#~ def info():
-    #~ """ info req """
-
-    #~ return {"version": version, "datetime_utc": dtstr}
-
-#~ # --------------- putredis
-#~ #REDO
-
-#~ @redis_dec
-#~ @app.get('/putredis')
-#~ def putredis():
-    #~ """ test req to set redis value """
-
-    #~ myredis.set("foo", "bar")
-    #~ myredis.set("name", "Василий")
-    #~ return "set foo=bar, name=Василий"
-    
-#~ # --------------- getredis
-#~ #REDO
-
-#~ @redis_dec
-#~ @app.get('/getredis')
-#~ def getredis():
-    #~ """ test req to get redis value """
-
-    #~ foo = myredis.get("foo")
-    #~ name = myredis.get("name")
-    #~ return "got foo=%s, name=%s" % (str(foo), str(name))
-
 # ---------------- caller
 
 app = web.Application()
@@ -124,12 +92,5 @@ app.add_route (web.get ('/', handle))
 if __name__ == '__main__':
     web.run_app (app)
     
-#    app.run (host='0.0.0.0', port=80, debug=True, reload=True)
-#    app.run (server='gunicorn', host='0.0.0.0', port=80, debug=True, reload=True)
-
-#    app.debug (True)
-#    app.run (host='0.0.0.0', port=8080)
-#    app.run (host='localhost', port=8080)
-
 # the end.
 # =======================================================
