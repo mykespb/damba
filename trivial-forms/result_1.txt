@@ -1,0 +1,14 @@
+template:  
+Result: hello, {names[name]}!
+
+values:  {'max': 3000, 'min': 100, 'name': 'Kirill'}
+
+Result: hello, Kirill!
+
+template:  
+Result: max is {names[max]}, you know!
+
+values:  {'max': 3000, 'min': 100, 'name': 'Kirill'}
+
+Result: max is 3000, you know!
+
