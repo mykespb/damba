@@ -12,7 +12,7 @@ global_values = {'max': 5000, 'min': 100, 'name': 'Vasya'}
 def main(args):
     local_values = {'max': 3000, 'name': 'Kirill'}
     my_values = {**global_values, **local_values}
-	
+
     temp = templates['main_template']
     print ("template: ", temp)
     print ("values: ", my_values)
